@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tripviewer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: tripviewer
+  template:
+    metadata:
+      labels:
+        app: tripviewer
+    spec:
+      containers:
+      - name: tripviewer
+        image: registryuzd2793.azurecr.io/tripinsights/tripviewer:1.0
+        ports:
+        - containerPort: 80
+          name: tripviewer
+        env:
+        - name: USERPROFILE_API_ENDPOINT
+          value: http://10.0.202.223
+        - name: TRIPS_API_ENDPOINT
+          value: http://10.0.65.112
+        - name: ASPNETCORE_ENVIRONMENT
+          value: Development

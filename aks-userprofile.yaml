@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: userprofile
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: userprofile
+  template:
+    metadata:
+      labels:
+        app: userprofile
+    spec:
+      containers:
+      - name: userprofile
+        image: registryuzd2793.azurecr.io/tripinsights/userprofile:1.0
+        ports:
+        - containerPort: 80
+          name: userprofile
+        env:
+        - name: SQL_USER
+          value: sqladminuZd2793
+        - name: SQL_PASSWORD
+          value: vH8ig6Em6
+        - name: SQL_SERVER
+          value: sqlserveruzd2793.database.windows.net
+        - name: SQL_DBNAME
+          value: mydrivingDB

@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: trips
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trips
+  template:
+    metadata:
+      labels:
+        app: trips
+    spec:
+      containers:
+      - name: trips
+        image: registryuzd2793.azurecr.io/tripinsights/trips:1.0
+        ports:
+        - containerPort: 80
+          name: trips
+        env:
+        - name: SQL_USER
+          value: sqladminuZd2793
+        - name: SQL_PASSWORD
+          value: vH8ig6Em6
+        - name: SQL_SERVER
+          value: sqlserveruzd2793.database.windows.net
+        - name: SQL_DBNAME
+          value: mydrivingDB
