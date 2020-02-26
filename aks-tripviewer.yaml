@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: tripviewer
+  namespace: web
 spec:
   replicas: 1
   selector:
@@ -27,8 +28,8 @@ spec:
             cpu: "500m"
         env:
         - name: USERPROFILE_API_ENDPOINT
-          value: http://userprofile
+          value: http://userprofile.api.svc.cluster.local
         - name: TRIPS_API_ENDPOINT
-          value: http://trips
+          value: http://trips.api.svc.cluster.local
         - name: ASPNETCORE_ENVIRONMENT
           value: Development

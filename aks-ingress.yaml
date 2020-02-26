@@ -4,6 +4,7 @@ metadata:
   annotations:
     kubernetes.io/ingress.class: nginx
   name: ingress
+  namespace: web
 spec:
   rules:
     - http:
@@ -12,6 +13,18 @@ spec:
               serviceName: tripviewer
               servicePort: 80
             path: /
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  annotations:
+    kubernetes.io/ingress.class: nginx
+  name: ingress
+  namespace: api
+spec:
+  rules:
+    - http:
+        paths:
           - backend:
               serviceName: trips
               servicePort: 80

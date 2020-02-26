@@ -1,0 +1,39 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: web
+  name: web-view
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services", "pods", "ingress"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: web
+  name: web-edit
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services", "pods", "ingress"]
+  verbs: ["create", "update", "patch", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: api
+  name: api-view
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services", "pods", "ingress"]
+  verbs: ["get", "watch", "list"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: api
+  name: api-edit
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["services", "pods", "ingress"]
+  verbs: ["create", "update", "patch", "delete"]
