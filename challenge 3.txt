@@ -1,0 +1,27 @@
+az aks get-credentials --resource-group teamresources --name aksmod
+az aks update -n aksmod -g teamresources --attach-acr registryuzd2793
+
+k apply -f aks-trips.yaml
+k apply -f aks-poi.yaml
+k apply -f aks-userjava.yaml
+k apply -f aks-userprofile.yaml
+
+k apply -f aks-svc-trips.yaml
+k apply -f aks-svc-poi.yaml
+k apply -f aks-svc-userjava.yaml
+k apply -f aks-svc-userprofile.yaml
+
+k apply -f aks-tripviewer.yaml
+k apply -f aks-svc-tripviewer.yaml
+
+k create namespace ingress
+helm repo update
+helm install ingress stable/nginx-ingress --namespace ingress
+k --namespace ingress get svc
+
+k apply -f aks-ingress.yaml
+
+
+k exec -it tripviewer-5bf44dfdc4-cvh6j -- /bin/sh
+# VM is running on 10.2.0.4
+ping 10.2.0.4

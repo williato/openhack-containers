@@ -18,10 +18,17 @@ spec:
         ports:
         - containerPort: 80
           name: tripviewer
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
         env:
         - name: USERPROFILE_API_ENDPOINT
-          value: http://10.0.202.223
+          value: http://userprofile
         - name: TRIPS_API_ENDPOINT
-          value: http://10.0.65.112
+          value: http://trips
         - name: ASPNETCORE_ENVIRONMENT
           value: Development
