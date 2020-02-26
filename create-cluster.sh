@@ -68,3 +68,30 @@ az aks create \
 
     az aks get-credentials --resource-group $rg --name $aksname --admin
 
+
+## Create an Azure Key Vault
+az keyvault create --resource-group team5 --name team5kv 
+
+## Store the password as a secret
+az keyvault secret set --vault-name team5kv --name sql-password --value "vH8ig6Em6"
+
+## Create Service Principal to access Azure Key Vault
+az ad sp create-for-rbac --skip-assignment
+
+## Ensure the Service Principal has all the required permissions to access secrets in your Key Vault instance
+KEYVAULT_ID=$(az keyvault show --name team5kv --query id --output tsv)
+az role assignment create --role Reader --assignee "http://azure-cli-2020-02-26-11-03-47" --scope $KEYVAULT_ID
+
+## Configure Azure Key Vault to allow access to secrets using the Service Principal you created
+az keyvault set-policy -n team5kv --secret-permissions get --spn 6f578462-7d5b-49e8-9b31-6b00eae97a35
+
+## Create a Kubernetes secret to store the Service Principal created earlier
+kubectl create secret generic kvcreds --from-literal clientid=6f578462-7d5b-49e8-9b31-6b00eae97a35 --from-literal clientsecret=d9722129-3a2d-4c72-bb4b-eb1eb632f3ed --type=azure/kv
+
+## Deploy Key Vault FlexVolume for Kubernetes into your AKS cluster
+kubectl create -f https://raw.githubusercontent.com/Azure/kubernetes-keyvault-flexvol/master/deployment/kv-flexvol-installer.yaml
+
+## Retrieve the Azure subscription/tenant ID where the Azure Key Vault is deployed
+az account show --query id --output tsv  ## 2797869a-f18f-4acc-95ac-3e2c15960d62
+az account show --query tenantId --output tsv ## e0e3ea7e-63e7-4367-94f5-d77adf8abbb0
+

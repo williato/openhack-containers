@@ -28,21 +28,15 @@ spec:
             cpu: "500m"
         env:
         - name: SQL_USER
-          valueFrom:
-            secretKeyRef:
-              name: sql
-              key: username
+          value: sqladminuZd2793
         - name: SQL_SERVER
-          valueFrom:
-            secretKeyRef:
-              name: sql
-              key: host
+          value: sqlserveruzd2793.database.windows.net
         - name: SQL_DBNAME
           value: mydrivingDB
         volumeMounts:
-        - name: sql-secret
-          mountPath: /secrets
-          readOnly: true
+          - name: sql-secret
+            mountPath: /kvmnt
+            readOnly: true
       volumes:
         - name: sql-secret
           flexVolume:
@@ -53,7 +47,6 @@ spec:
               usepodidentity: "false"
               keyvaultname: team5kv
               keyvaultobjectnames: sql-password # Name of Key Vault secret
-              keyvaultobjectaliases: SQL_PASSWORD
               keyvaultobjecttypes: secret
               resourcegroup: team5
               subscriptionid: 2797869a-f18f-4acc-95ac-3e2c15960d62
