@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wcfservice
+  namespace: api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: wcfservice
+  template:
+    metadata:
+      labels:
+        app: wcfservice
+    spec:
+      containers:
+      - name: wcfservice
+        image: registryuzd2793.azurecr.io/wcfservice:1.0
+        ports:
+        - containerPort: 80
+          name: wcfservice
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
